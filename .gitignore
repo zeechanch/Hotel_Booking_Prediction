@@ -1,0 +1,17 @@
+# Large model files (too big for GitHub - 564MB RF model)
+*.joblib
+*.pkl
+*.h5
+*.model
+
+# Dataset (too large for GitHub)
+*.csv
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+.DS_Store
+
+# Temp Word lock files
+~$*.docx
