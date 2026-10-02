@@ -1,0 +1,11 @@
+Evaluation Metric,"Research Paper (Dr. Vinay Raj R, 2026)",Our Logistic Regression (Scenario A),Our Random Forest (Ensemble Benchmark)
+Accuracy,81.62%,81.59%,87.13%
+Precision,83.73%,81.19%,88.13%
+Sensitivity (Recall),62.89%,65.46%,75.40%
+Specificity,92.74%,91.08%,94.03%
+F1-Score,71.82%,72.48%,81.27%
+ROC-AUC Score,0.866,0.894,0.945
+True Negatives (TN),"13,798","13,692","14,135"
+False Positives (FP),"1,080","1,341",898
+False Negatives (FN),"3,279","3,055","2,176"
+True Positives (TP),"5,556","5,790","6,669"
