@@ -44,10 +44,11 @@ jobs:
         id: pages-path
         shell: bash
         run: |
+          repo_name="${GITHUB_REPOSITORY#*/}"
           if [[ "$GITHUB_REPOSITORY" == "$GITHUB_REPOSITORY_OWNER.github.io" ]]; then
             echo "base-href=/" >> "$GITHUB_OUTPUT"
           else
-            echo "base-href=/$GITHUB_REPOSITORY/" >> "$GITHUB_OUTPUT"
+            echo "base-href=/$repo_name/" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Validate and build for GitHub Pages
