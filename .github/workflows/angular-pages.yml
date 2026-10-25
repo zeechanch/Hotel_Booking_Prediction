@@ -1,0 +1,79 @@
+name: Angular CI and GitHub Pages CD
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-build:
+    name: Validate and build Angular frontend
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: read
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: temp-app/package-lock.json
+
+      - name: Install dependencies
+        working-directory: temp-app
+        run: npm ci
+
+      - name: Run unit tests
+        working-directory: temp-app
+        run: npm test -- --watch=false
+
+      - name: Calculate GitHub Pages base path
+        id: pages-path
+        shell: bash
+        run: |
+          if [[ "$GITHUB_REPOSITORY" == "$GITHUB_REPOSITORY_OWNER.github.io" ]]; then
+            echo "base-href=/" >> "$GITHUB_OUTPUT"
+          else
+            echo "base-href=/$GITHUB_REPOSITORY/" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Validate and build for GitHub Pages
+        working-directory: temp-app
+        run: npm run build -- --base-href "${{ steps.pages-path.outputs.base-href }}"
+
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v4
+        with:
+          path: temp-app/dist/temp-app/browser
+
+  deploy:
+    name: Deploy to GitHub Pages
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: validate-build
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Deploy Pages artifact
+        id: deployment
+        uses: actions/deploy-pages@v4

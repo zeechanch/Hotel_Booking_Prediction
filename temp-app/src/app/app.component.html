@@ -1,0 +1,67 @@
+<main class="page-shell">
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Hotel Booking Prediction home">
+      <span class="brand-mark" aria-hidden="true">H</span>
+      <span>Staywise <span class="brand-divider">/</span> Research</span>
+    </a>
+    <span class="status"><span class="status-dot"></span> Model benchmark</span>
+  </header>
+
+  <section class="hero" id="top" aria-labelledby="page-title">
+    <p class="eyebrow">HOTEL BOOKING CANCELLATION STUDY</p>
+    <h1 id="page-title">Understand the<br /><span>why behind</span> cancellations.</h1>
+    <p class="intro">
+      A comparative study of reservation data, built to identify the signals
+      that help explain when a guest may cancel.
+    </p>
+    <a class="text-link" href="#results">Explore the benchmark <span aria-hidden="true">↓</span></a>
+    <div class="hero-note">
+      <span class="note-line"></span>
+      <span>119,390 reservations<br />33 original booking features</span>
+    </div>
+  </section>
+
+  <section class="results" id="results" aria-labelledby="results-title">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">MODEL COMPARISON</p>
+        <h2 id="results-title">Two approaches.<br />One shared dataset.</h2>
+      </div>
+      <p class="section-copy">
+        Evaluated against the same hotel booking records to compare a clear,
+        interpretable baseline with a stronger ensemble model.
+      </p>
+    </div>
+
+    <div class="model-grid">
+      @for (model of models; track model.name; let index = $index) {
+        <article class="model-card" [class.featured]="index === 1">
+          <div class="card-topline">
+            <span class="model-index">0{{ index + 1 }}</span>
+            <span class="model-tag">{{ model.tag }}</span>
+          </div>
+          <h3>{{ model.name }}</h3>
+          <div class="metric-row">
+            <div>
+              <span class="metric-label">ACCURACY</span>
+              <span class="metric-value">{{ model.accuracy }}</span>
+            </div>
+            <div>
+              <span class="metric-label">ROC–AUC</span>
+              <span class="metric-value">{{ model.auc }}</span>
+            </div>
+          </div>
+          <div class="metric-bar" aria-hidden="true">
+            <span [style.width]="model.accuracy"></span>
+          </div>
+        </article>
+      }
+    </div>
+    <p class="source-note">Results from the project benchmark; metrics are shown for research comparison.</p>
+  </section>
+
+  <footer>
+    <span>HOTEL BOOKING PREDICTION</span>
+    <span>Angular · Published with GitHub Pages</span>
+  </footer>
+</main>

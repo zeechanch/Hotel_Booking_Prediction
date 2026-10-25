@@ -15,3 +15,7 @@ __pycache__/
 
 # Temp Word lock files
 ~$*.docx
+
+# Angular dependencies and generated output
+node_modules/
+temp-app/dist/

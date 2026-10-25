@@ -75,6 +75,47 @@ python benchmark_report_generator.py
 python generate_word_report.py
 ```
 
+## 🌐 Angular Frontend CI/CD
+
+The Angular project is in [`temp-app/`](temp-app/). The GitHub Actions workflow at
+`.github/workflows/angular-pages.yml` validates and builds the frontend for pull
+requests and pushes to `main`. A successful push to `main` also deploys the build
+to GitHub Pages. The workflow selects the correct base path for project pages and
+user or organization pages automatically.
+
+### One-time GitHub Pages setup
+
+In the repository on GitHub, open **Settings → Pages** and set **Build and
+deployment → Source** to **GitHub Actions**. The workflow uses `GITHUB_TOKEN` with
+Pages deployment permissions; no personal access token or repository secret is
+required.
+
+### Run the workflow
+
+Make a change under `temp-app/src/`, then commit and push it to `main`:
+
+```bash
+git add .github/workflows/angular-pages.yml .gitignore README.md temp-app
+git commit -m "Add Angular GitHub Pages CI/CD"
+git push <project-remote> main
+```
+
+Replace `<project-remote>` with the remote name for the GitHub repository that
+hosts this project (shown by `git remote -v`). In the **Actions** tab, open
+**Angular CI and GitHub Pages CD**. The `Validate and build Angular frontend` job
+must pass before `Deploy to GitHub Pages` runs. The deployment job links to the
+published URL in its `github-pages` environment. Allow a short time for Pages to
+serve the new build after the workflow completes.
+
+Local development and production build:
+
+```bash
+cd temp-app
+npm ci
+npm start
+npm run build
+```
+
 ---
 
 ## 🔑 Key Findings
